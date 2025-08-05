@@ -1,0 +1,24 @@
+{
+  "name": "to-do-application",
+  "version": "1.0.0",
+  "description": "",
+  "homepage": "https://github.com/gauravdevkar27/mern-todo-app#readme",
+  "bugs": {
+    "url": "https://github.com/gauravdevkar27/mern-todo-app/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gauravdevkar27/mern-todo-app.git"
+  },
+  "license": "ISC",
+  "author": "gaurav devkar",
+  "type": "commonjs",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "init": "^0.1.2"
+  },
+  "devDependencies": {}
+}
