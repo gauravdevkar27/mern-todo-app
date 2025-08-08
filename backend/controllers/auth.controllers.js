@@ -1,5 +1,11 @@
 const User = require('../models/user.models.js');
+const jwt = require('jsonwebtoken');
+require('dotenv').config();
+
+const secretKey = process.env.JWT_SECRET;
+
 async function registerUser(req, res){
+
 
     let {firstName, lastName, userName, passWord} = req.body;
 
@@ -15,6 +21,7 @@ async function registerUser(req, res){
     }
     let user = new User({firstName, lastName, userName, passWord});
     const result = await user.save();
+    console.log(result);
 
     res
     .status(201)
@@ -27,12 +34,44 @@ async function registerUser(req, res){
         .status(400)
         .send(err);
     }
-    res
-    .send("success");
+}
+
+async function loginUser(req, res){
+    try{
+        const {userName, passWord} = req.body;
+        const user = await User.findOne({userName});
+        if(!user){
+            return res
+                   .status(404)
+                   .send({error: "Authentication failed"});
+        }
+        const isPasswordValid = await user.comparePassword(passWord);   //if password is match then it is valid
+        if(!isPasswordValid){
+            return res
+                   .status(404)
+                   .send({message: "Wrong password"});
+        }
+        let token =  jwt.sign({userId:user?._id},secretKey, {expiresIn: '1h'});
+        let finalData = {
+            userId:user?._id,
+            userName:user?.userName,
+            firstName:user?.firstName,
+            lastName:user?.lastName,
+
+            token
+        }
+        res.send(finalData);
+    } catch(err){
+        console.log(err);
+        res
+        .status(400)
+        .send(err);
+    }
 }
 
 const AuthController = {
-    registerUser
+    registerUser,
+    loginUser
 } 
 
 module.exports = AuthController;
