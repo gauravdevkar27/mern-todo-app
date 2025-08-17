@@ -1,7 +1,4 @@
 {
-  "devDependencies": {
-    "concurrently": "^9.2.0"
-  },
   "scripts": {
     
     "start:client": "cd frontend && npm start",
